@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { processDictionaryData } from '@/helpers/helperFunctions';
+import { data as testData } from '@/helpers/data';
 
 function AddWordForm(props: any) {
   // State to hold the input value
@@ -11,9 +13,31 @@ function AddWordForm(props: any) {
   // Handler for form submission
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    props.setWordStack([...props.wordStack, word]);
+    props.setLoading(true);
+    // fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     const wordDetail = processDictionaryData(data);
+    //     if (wordDetail) {
+    //       console.log(wordDetail);
+    //       props.setWordStack([...props.wordStack, wordDetail.word]);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   })
+    //   .finally(() => {
+    //     props.setLoading(false);
+    //   });
+    setTimeout(() => {
+      const wordDetail = processDictionaryData(testData);
+      props.setWordStack([...props.wordStack, wordDetail]);
+      props.setLoading(false);
+    }, 2000);
+
     setWord('');
-    // API call or handle the data further
   };
 
   return (

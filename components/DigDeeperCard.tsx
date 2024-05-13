@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { WordDetailInterface } from '@/helpers/helperFunctions';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -21,31 +21,34 @@ import {
   BreadcrumbEllipsis,
 } from '@/components/ui/breadcrumb';
 
-const createBreadCrumb = (words: string[]) => {
+import MySkeleton from './MySkeleton';
+
+const createBreadCrumb = (words: WordDetailInterface[]) => {
+  if (words.length < 2) return null;
   return (
-    <Breadcrumb className="pb-6">
+    <Breadcrumb className="pb-6 ">
       <BreadcrumbList>
         {words.length > 3 ? (
           <>
-            <BreadcrumbItem key="first">{words[0]}</BreadcrumbItem>
+            <BreadcrumbItem key="first">{words[0].word}</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbEllipsis />
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem key="second-to-last">
-              {words[words.length - 2]}
+              {words[words.length - 2].word}
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem key="last">
-              {words[words.length - 1]}
+              {words[words.length - 1].word}
             </BreadcrumbItem>
           </>
         ) : (
-          words.map((word, index) => (
+          words.map((wordObject, index) => (
             <>
               {index > 0 && <BreadcrumbSeparator />}
-              <BreadcrumbItem key={index}>{word}</BreadcrumbItem>
+              <BreadcrumbItem key={index}>{wordObject.word}</BreadcrumbItem>
             </>
           ))
         )}
@@ -54,24 +57,34 @@ const createBreadCrumb = (words: string[]) => {
   );
 };
 
+const createWordDetail = (wordDetail: any) => {};
+
 export default function DigDeeperCard(props: any) {
   return (
-    <Card className="w-full">
-      <CardHeader>
-        {props.wordStack ? (
-          createBreadCrumb(props.wordStack)
+    <>
+      <Card className="w-full">
+        {props.loading ? (
+          <CardContent>
+            <MySkeleton />
+          </CardContent>
         ) : (
-          <div className="pb-6"></div>
-        )}
+          <>
+            <CardHeader className="flex">
+              {createBreadCrumb(props.wordStack)}
 
-        <CardTitle>Create project</CardTitle>
-        <CardDescription>Deploy your new project in one-click.</CardDescription>
-      </CardHeader>
-      <CardContent></CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline">Cancel</Button>
-        <Button>Deploy</Button>
-      </CardFooter>
-    </Card>
+              <CardTitle>Create project</CardTitle>
+              <CardDescription>
+                Deploy your new project in one-click.
+              </CardDescription>
+            </CardHeader>
+            <CardContent></CardContent>
+            <CardFooter className="flex justify-between">
+              <Button variant="outline">Cancel</Button>
+              <Button>Deploy</Button>
+            </CardFooter>
+          </>
+        )}
+      </Card>
+    </>
   );
 }

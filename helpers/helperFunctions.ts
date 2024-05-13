@@ -1,6 +1,6 @@
 import exp from 'constants';
 
-interface WordDetail {
+export interface WordDetailInterface {
   word: string;
   phoneticText: string;
   definitions: Array<{
@@ -9,13 +9,13 @@ interface WordDetail {
   }>;
 }
 
-function processDictionaryData(data: any[]): WordDetail | null {
+export function processDictionaryData(data: any[]): WordDetailInterface | [] {
   if (!data || data.length === 0 || data[0].title === 'No Definitions Found') {
-    return null;
+    return [];
   }
 
   const firstEntry = data[0];
-  const wordDetail: WordDetail = {
+  const wordDetail: WordDetailInterface = {
     word: firstEntry.word,
     phoneticText: firstEntry.phonetic || '',
     definitions: [],
@@ -33,5 +33,3 @@ function processDictionaryData(data: any[]): WordDetail | null {
 
   return wordDetail;
 }
-
-export { processDictionaryData };
