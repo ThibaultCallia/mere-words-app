@@ -4,15 +4,16 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-function AddWordForm() {
+function AddWordForm(props: any) {
   // State to hold the input value
   const [word, setWord] = useState('');
 
   // Handler for form submission
   const handleSubmit = (event: any) => {
-    event.preventDefault(); // Prevent the form from actually submitting
-    console.log('Submitted word:', word);
-    // Here you could also make an API call or handle the data further
+    event.preventDefault();
+    props.setWordStack([...props.wordStack, word]);
+    setWord('');
+    // API call or handle the data further
   };
 
   return (

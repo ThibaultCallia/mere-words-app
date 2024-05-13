@@ -18,27 +18,51 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
+  BreadcrumbEllipsis,
 } from '@/components/ui/breadcrumb';
 
-export default function DigDeeperCard() {
+const createBreadCrumb = (words: string[]) => {
+  return (
+    <Breadcrumb className="pb-6">
+      <BreadcrumbList>
+        {words.length > 3 ? (
+          <>
+            <BreadcrumbItem key="first">{words[0]}</BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbEllipsis />
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem key="second-to-last">
+              {words[words.length - 2]}
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem key="last">
+              {words[words.length - 1]}
+            </BreadcrumbItem>
+          </>
+        ) : (
+          words.map((word, index) => (
+            <>
+              {index > 0 && <BreadcrumbSeparator />}
+              <BreadcrumbItem key={index}>{word}</BreadcrumbItem>
+            </>
+          ))
+        )}
+      </BreadcrumbList>
+    </Breadcrumb>
+  );
+};
+
+export default function DigDeeperCard(props: any) {
   return (
     <Card className="w-full">
       <CardHeader>
-        <Breadcrumb className="pb-6">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/components">Components</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        {props.wordStack ? (
+          createBreadCrumb(props.wordStack)
+        ) : (
+          <div className="pb-6"></div>
+        )}
 
         <CardTitle>Create project</CardTitle>
         <CardDescription>Deploy your new project in one-click.</CardDescription>
