@@ -1,4 +1,6 @@
-import WordStack from './WordStack';
+import MyBreadcrumb from '@/components/MyBreadCrumb';
+import WordStack from './WordStackObj';
+import { CardContent } from '@/components/ui/card';
 
 export interface WordDetailInterface {
   word: string;
@@ -20,4 +22,12 @@ export interface AddWordFormPropsInterface {
 export interface DigDeeperCardInterface {
   wordStack: WordStack<WordDetailInterface>;
   loading: boolean;
+}
+
+export interface MyBreadcrumbPropsInterface {
+  words: string[];
+}
+
+export interface WordResultPropsInterface {
+  result: WordDetailInterface;
 }

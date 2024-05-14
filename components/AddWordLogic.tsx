@@ -1,15 +1,16 @@
 'use client';
-
+import * as React from 'react';
 import AddWordForm from './AddWordForm';
+
 import DigDeeperCard from './DigDeeperCard';
 import { useState, useEffect } from 'react';
 
-import WordStack from '../helpers/WordStack';
+import WordStackObj from '../helpers/WordStackObj';
 import { WordDetailInterface } from '@/helpers/interfaces';
 
 const AddWordLogic = (props: any) => {
   const [wordStack, setWordStack] = useState(
-    new WordStack<WordDetailInterface>()
+    new WordStackObj<WordDetailInterface>()
   );
   const [loading, setLoading] = useState(false);
 

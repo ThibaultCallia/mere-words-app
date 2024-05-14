@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { processDictionaryData } from '@/helpers/helperFunctions';
 import { data as testData } from '@/helpers/data';
-import WordStack from '@/helpers/WordStack';
+import WordStack from '@/helpers/WordStackObj';
 import {
   WordDetailInterface,
   AddWordFormPropsInterface,
@@ -14,6 +14,7 @@ import {
 const AddWordForm: React.FC<AddWordFormPropsInterface> = ({
   setWordStack,
   setLoading,
+  wordStack,
 }) => {
   // State to hold the input value
   const [word, setWord] = useState('');
@@ -60,8 +61,11 @@ const AddWordForm: React.FC<AddWordFormPropsInterface> = ({
         onChange={(e) => setWord(e.target.value)}
         placeholder="Enter a word"
         className="border rounded p-2 text-lg"
+        disabled={!wordStack.isEmpty()}
       />
-      <Button type="submit">Look Up</Button>
+      <Button disabled={word.length === 0} type="submit">
+        Look Up
+      </Button>
     </form>
   );
 };

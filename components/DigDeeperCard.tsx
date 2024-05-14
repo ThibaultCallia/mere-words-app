@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { WordDetailInterface } from '@/helpers/interfaces';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { Switch } from '@/components/ui/switch';
+
 import {
   Card,
   CardContent,
@@ -9,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -21,48 +25,27 @@ import {
   BreadcrumbEllipsis,
 } from '@/components/ui/breadcrumb';
 import MySkeleton from './MySkeleton';
+import MyBreadcrumb from './MyBreadCrumb';
+import WordResult from './WordResult';
 import { DigDeeperCardInterface } from '@/helpers/interfaces';
-
-const createBreadCrumb = (words: string[]) => {
-  if (words.length < 2) return null;
-  return (
-    <Breadcrumb className="pb-6 ">
-      <BreadcrumbList>
-        {words.length > 3 ? (
-          <>
-            <BreadcrumbItem key="first">{words[0]}</BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbEllipsis />
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem key="second-to-last">
-              {words[words.length - 2]}
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem key="last">
-              {words[words.length - 1]}
-            </BreadcrumbItem>
-          </>
-        ) : (
-          words.map((word, index) => (
-            <>
-              {index > 0 && <BreadcrumbSeparator />}
-              <BreadcrumbItem key={index}>{word}</BreadcrumbItem>
-            </>
-          ))
-        )}
-      </BreadcrumbList>
-    </Breadcrumb>
-  );
-};
-
-const createWordDetail = (wordDetail: any) => {};
 
 const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
   wordStack,
   loading,
 }) => {
+  const lastWord = wordStack.peek();
+
+  if (wordStack.isEmpty() && !loading) {
+    return (
+      <Card className="w-full h-full flex items-center justify-center">
+        <CardContent className="flex items-center">
+          <Image src="/Rabbit.jpg" alt="Rabbit" width={35} height={20} />
+          <span className="ml-4 text-black text-lg">Down the rabbit hole</span>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <>
       <Card className="w-full">
@@ -73,17 +56,20 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
         ) : (
           <>
             <CardHeader className="flex">
-              {createBreadCrumb(wordStack.getAllWords())}
-
-              <CardTitle>Create project</CardTitle>
-              <CardDescription>
-                Deploy your new project in one-click.
-              </CardDescription>
+              <MyBreadcrumb words={wordStack.getAllWords()} />
             </CardHeader>
-            <CardContent></CardContent>
+            {lastWord ? <WordResult result={lastWord} /> : null}
             <CardFooter className="flex justify-between">
-              <Button variant="outline">Cancel</Button>
-              <Button>Deploy</Button>
+              <Button variant="outline">Back</Button>
+              <div className="flex gap-2">
+                <Label
+                  htmlFor="rabbitHoleSwitch"
+                  className="flex self-center text-xs"
+                >
+                  Rabbit Hole
+                </Label>
+                <Switch id="rabbitHoleSwitch">test</Switch>
+              </div>
             </CardFooter>
           </>
         )}

@@ -1,20 +1,20 @@
-class WordStack<T> {
+class WordStackObj<T> {
   private items: T[];
 
   constructor(items: T[] = []) {
     this.items = items;
   }
 
-  push(element: T): WordStack<T> {
-    return new WordStack([...this.items, element]);
+  push(element: T): WordStackObj<T> {
+    return new WordStackObj([...this.items, element]);
   }
 
-  pop(): WordStack<T> {
+  pop(): WordStackObj<T> {
     if (this.items.length === 0) {
-      return new WordStack(); // return new empty stack if current stack is empty
+      return new WordStackObj(); // return new empty stack if current stack is empty
     }
     const newItems = this.items.slice(0, -1);
-    return new WordStack(newItems);
+    return new WordStackObj(newItems);
   }
 
   peek(): T | null {
@@ -29,8 +29,8 @@ class WordStack<T> {
     return this.items.length;
   }
 
-  clear(): WordStack<T> {
-    return new WordStack();
+  clear(): WordStackObj<T> {
+    return new WordStackObj();
   }
 
   toArray(): T[] {
@@ -42,4 +42,4 @@ class WordStack<T> {
   }
 }
 
-export default WordStack;
+export default WordStackObj;
