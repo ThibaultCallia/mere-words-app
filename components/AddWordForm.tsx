@@ -5,15 +5,23 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { processDictionaryData } from '@/helpers/helperFunctions';
 import { data as testData } from '@/helpers/data';
+import WordStack from '@/helpers/WordStack';
+import {
+  WordDetailInterface,
+  AddWordFormPropsInterface,
+} from '@/helpers/interfaces';
 
-function AddWordForm(props: any) {
+const AddWordForm: React.FC<AddWordFormPropsInterface> = ({
+  setWordStack,
+  setLoading,
+}) => {
   // State to hold the input value
   const [word, setWord] = useState('');
 
   // Handler for form submission
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    props.setLoading(true);
+    setLoading(true);
     // fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
     //   .then((response) => {
     //     return response.json();
@@ -33,8 +41,12 @@ function AddWordForm(props: any) {
     //   });
     setTimeout(() => {
       const wordDetail = processDictionaryData(testData);
-      props.setWordStack([...props.wordStack, wordDetail]);
-      props.setLoading(false);
+      if (wordDetail) {
+        setWordStack((prev: WordStack<WordDetailInterface>) =>
+          prev.push(wordDetail)
+        );
+      }
+      setLoading(false);
     }, 2000);
 
     setWord('');
@@ -52,6 +64,6 @@ function AddWordForm(props: any) {
       <Button type="submit">Look Up</Button>
     </form>
   );
-}
+};
 
 export default AddWordForm;

@@ -4,11 +4,13 @@ import AddWordForm from './AddWordForm';
 import DigDeeperCard from './DigDeeperCard';
 import { useState, useEffect } from 'react';
 
-import Stack from '../helpers/Stack';
-import { WordDetailInterface } from '@/helpers/helperFunctions';
+import WordStack from '../helpers/WordStack';
+import { WordDetailInterface } from '@/helpers/interfaces';
 
 const AddWordLogic = (props: any) => {
-  const [wordStack, setWordStack] = useState<WordDetailInterface[]>([]);
+  const [wordStack, setWordStack] = useState(
+    new WordStack<WordDetailInterface>()
+  );
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {

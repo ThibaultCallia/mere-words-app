@@ -1,17 +1,9 @@
 import exp from 'constants';
+import { WordDetailInterface } from './interfaces';
 
-export interface WordDetailInterface {
-  word: string;
-  phoneticText: string;
-  definitions: Array<{
-    partOfSpeech: string;
-    definition: string;
-  }>;
-}
-
-export function processDictionaryData(data: any[]): WordDetailInterface | [] {
+export function processDictionaryData(data: any[]): WordDetailInterface | null {
   if (!data || data.length === 0 || data[0].title === 'No Definitions Found') {
-    return [];
+    return null;
   }
 
   const firstEntry = data[0];

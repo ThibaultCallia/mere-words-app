@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { WordDetailInterface } from '@/helpers/helperFunctions';
+import { WordDetailInterface } from '@/helpers/interfaces';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,35 +20,35 @@ import {
   BreadcrumbSeparator,
   BreadcrumbEllipsis,
 } from '@/components/ui/breadcrumb';
-
 import MySkeleton from './MySkeleton';
+import { DigDeeperCardInterface } from '@/helpers/interfaces';
 
-const createBreadCrumb = (words: WordDetailInterface[]) => {
+const createBreadCrumb = (words: string[]) => {
   if (words.length < 2) return null;
   return (
     <Breadcrumb className="pb-6 ">
       <BreadcrumbList>
         {words.length > 3 ? (
           <>
-            <BreadcrumbItem key="first">{words[0].word}</BreadcrumbItem>
+            <BreadcrumbItem key="first">{words[0]}</BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbEllipsis />
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem key="second-to-last">
-              {words[words.length - 2].word}
+              {words[words.length - 2]}
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem key="last">
-              {words[words.length - 1].word}
+              {words[words.length - 1]}
             </BreadcrumbItem>
           </>
         ) : (
-          words.map((wordObject, index) => (
+          words.map((word, index) => (
             <>
               {index > 0 && <BreadcrumbSeparator />}
-              <BreadcrumbItem key={index}>{wordObject.word}</BreadcrumbItem>
+              <BreadcrumbItem key={index}>{word}</BreadcrumbItem>
             </>
           ))
         )}
@@ -59,18 +59,21 @@ const createBreadCrumb = (words: WordDetailInterface[]) => {
 
 const createWordDetail = (wordDetail: any) => {};
 
-export default function DigDeeperCard(props: any) {
+const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
+  wordStack,
+  loading,
+}) => {
   return (
     <>
       <Card className="w-full">
-        {props.loading ? (
+        {loading ? (
           <CardContent>
             <MySkeleton />
           </CardContent>
         ) : (
           <>
             <CardHeader className="flex">
-              {createBreadCrumb(props.wordStack)}
+              {createBreadCrumb(wordStack.getAllWords())}
 
               <CardTitle>Create project</CardTitle>
               <CardDescription>
@@ -87,4 +90,6 @@ export default function DigDeeperCard(props: any) {
       </Card>
     </>
   );
-}
+};
+
+export default DigDeeperCard;
