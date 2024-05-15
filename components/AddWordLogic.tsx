@@ -14,10 +14,6 @@ const AddWordLogic = (props: any) => {
   );
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    console.log(wordStack);
-  }, [wordStack]);
-
   return (
     <div className="flex flex-col gap-3">
       <AddWordForm
@@ -25,7 +21,11 @@ const AddWordLogic = (props: any) => {
         wordStack={wordStack}
         setWordStack={setWordStack}
       />
-      <DigDeeperCard wordStack={wordStack} loading={loading} />
+      <DigDeeperCard
+        wordStack={wordStack}
+        loading={loading}
+        setWordStack={setWordStack}
+      />
     </div>
   );
 };

@@ -22,6 +22,9 @@ export interface AddWordFormPropsInterface {
 export interface DigDeeperCardInterface {
   wordStack: WordStack<WordDetailInterface>;
   loading: boolean;
+  setWordStack: React.Dispatch<
+    React.SetStateAction<WordStack<WordDetailInterface>>
+  >;
 }
 
 export interface MyBreadcrumbPropsInterface {
@@ -30,4 +33,5 @@ export interface MyBreadcrumbPropsInterface {
 
 export interface WordResultPropsInterface {
   result: WordDetailInterface;
+  rabbitHole: boolean;
 }

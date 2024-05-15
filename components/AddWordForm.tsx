@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { processDictionaryData } from '@/helpers/helperFunctions';
-import { data as testData } from '@/helpers/data';
-import WordStack from '@/helpers/WordStackObj';
+import { pickRandom } from '@/helpers/data';
+import WordStackObj from '@/helpers/WordStackObj';
 import {
   WordDetailInterface,
   AddWordFormPropsInterface,
@@ -41,9 +41,9 @@ const AddWordForm: React.FC<AddWordFormPropsInterface> = ({
     //     props.setLoading(false);
     //   });
     setTimeout(() => {
-      const wordDetail = processDictionaryData(testData);
+      const wordDetail = processDictionaryData(pickRandom());
       if (wordDetail) {
-        setWordStack((prev: WordStack<WordDetailInterface>) =>
+        setWordStack((prev: WordStackObj<WordDetailInterface>) =>
           prev.push(wordDetail)
         );
       }

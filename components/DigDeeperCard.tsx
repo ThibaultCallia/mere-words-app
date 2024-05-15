@@ -3,7 +3,7 @@ import { WordDetailInterface } from '@/helpers/interfaces';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { Switch } from '@/components/ui/switch';
-
+import WordStackObj from '@/helpers/WordStackObj';
 import {
   Card,
   CardContent,
@@ -28,12 +28,24 @@ import MySkeleton from './MySkeleton';
 import MyBreadcrumb from './MyBreadCrumb';
 import WordResult from './WordResult';
 import { DigDeeperCardInterface } from '@/helpers/interfaces';
+import { set } from 'react-hook-form';
 
 const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
   wordStack,
   loading,
+  setWordStack,
 }) => {
+  const [rabbitHole, setRabbitHole] = React.useState(false);
+  const [selectedWord, setSelectedWord] = React.useState<string | null>(null);
   const lastWord = wordStack.peek();
+
+  const handleBackClick = () => {
+    setWordStack((prev: WordStackObj<WordDetailInterface>) => prev.pop());
+  };
+
+  const handleSwitchChange = (e: boolean) => {
+    setRabbitHole(e);
+  };
 
   if (wordStack.isEmpty() && !loading) {
     return (
@@ -58,9 +70,13 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
             <CardHeader className="flex">
               <MyBreadcrumb words={wordStack.getAllWords()} />
             </CardHeader>
-            {lastWord ? <WordResult result={lastWord} /> : null}
+            {lastWord ? (
+              <WordResult result={lastWord} rabbitHole={rabbitHole} />
+            ) : null}
             <CardFooter className="flex justify-between">
-              <Button variant="outline">Back</Button>
+              <Button onClick={handleBackClick} variant="outline">
+                Back
+              </Button>
               <div className="flex gap-2">
                 <Label
                   htmlFor="rabbitHoleSwitch"
@@ -68,7 +84,12 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
                 >
                   Rabbit Hole
                 </Label>
-                <Switch id="rabbitHoleSwitch">test</Switch>
+                <Switch
+                  onCheckedChange={handleSwitchChange}
+                  id="rabbitHoleSwitch"
+                >
+                  test
+                </Switch>
               </div>
             </CardFooter>
           </>
