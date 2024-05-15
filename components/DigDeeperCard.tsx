@@ -19,7 +19,6 @@ import MySkeleton from './MySkeleton';
 import MyBreadcrumb from './MyBreadCrumb';
 import WordResult from './WordResult';
 import { DigDeeperCardInterface } from '@/helpers/interfaces';
-import { set } from 'react-hook-form';
 
 const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
   wordStack,
@@ -50,41 +49,35 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
 
   return (
     <>
-      <Card className="w-full">
-        {loading ? (
-          <CardContent>
-            <MySkeleton />
-          </CardContent>
-        ) : (
-          <>
-            <CardHeader className="flex">
-              <MyBreadcrumb words={wordStack.getAllWords()} />
-            </CardHeader>
-            {lastWord ? (
-              <WordResult result={lastWord} rabbitHole={rabbitHole} />
-            ) : null}
-            <CardFooter className="flex justify-between">
-              <Button onClick={handleBackClick} variant="outline">
-                Back
-              </Button>
-              <div className="flex gap-2">
-                <Label
-                  htmlFor="rabbitHoleSwitch"
-                  className="flex self-center text-xs"
-                >
-                  Rabbit Hole
-                </Label>
-                <Switch
-                  onCheckedChange={handleSwitchChange}
-                  id="rabbitHoleSwitch"
-                >
-                  test
-                </Switch>
-              </div>
-            </CardFooter>
-          </>
-        )}
-      </Card>
+      {loading ? null : (
+        <Card className="w-full">
+          <CardHeader className="flex">
+            <MyBreadcrumb words={wordStack.getAllWords()} />
+          </CardHeader>
+          {lastWord ? (
+            <WordResult result={lastWord} rabbitHole={rabbitHole} />
+          ) : null}
+          <CardFooter className="flex justify-between">
+            <Button onClick={handleBackClick} variant="outline">
+              Back
+            </Button>
+            <div className="flex gap-2">
+              <Label
+                htmlFor="rabbitHoleSwitch"
+                className="flex self-center text-xs"
+              >
+                Rabbit Hole
+              </Label>
+              <Switch
+                onCheckedChange={handleSwitchChange}
+                id="rabbitHoleSwitch"
+              >
+                test
+              </Switch>
+            </div>
+          </CardFooter>
+        </Card>
+      )}
     </>
   );
 };

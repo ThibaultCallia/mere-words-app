@@ -17,6 +17,7 @@ export interface AddWordFormPropsInterface {
   setWordStack: React.Dispatch<
     React.SetStateAction<WordStack<WordDetailInterface>>
   >;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface DigDeeperCardInterface {
@@ -25,6 +26,8 @@ export interface DigDeeperCardInterface {
   setWordStack: React.Dispatch<
     React.SetStateAction<WordStack<WordDetailInterface>>
   >;
+  activeIndex: number;
+  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface MyBreadcrumbPropsInterface {
