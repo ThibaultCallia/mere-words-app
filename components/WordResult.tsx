@@ -30,30 +30,37 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
   };
   const renderDefinition = (definition: string) => {
     // Split the definition into words, keeping the punctuation and spaces
-    const wordRegex = /(\b\w+\b|[^\w\s]+)/g;
-    const parts = definition.match(wordRegex) || [];
+    const wordRegex = /(\b\w+\b)([^\w\s]*)(\s*)/g;
+    const parts = definition.matchAll(wordRegex);
 
-    return parts.map((part, index) => {
-      if (rabbitHole && !isCommonShortWord(part) && /\b\w+\b/.test(part)) {
+    return Array.from(parts).map((part, index) => {
+      const word = part[1];
+      const punctuation = part[2];
+      const space = part[3];
+
+      if (rabbitHole && !isCommonShortWord(word)) {
         return (
           <React.Fragment key={index}>
             <Popover>
               <PopoverTrigger className="text-blue-500 cursor-pointer">
-                {part}
+                {word}
               </PopoverTrigger>
               <PopoverContent>
-                <Button>{`Look up "${part}"`}</Button>
+                <Button>{`Look up "${word}"`}</Button>
               </PopoverContent>
             </Popover>
-            {part.match(/[^\w\s]/) ? null : ' '}
+            {punctuation}
+            {space}
           </React.Fragment>
         );
       } else {
         return (
           <React.Fragment key={index}>
-            {part.match(/[^\w\s]/) ? part : `${part} `}
+            {word}
+            {punctuation}
+            {space}
           </React.Fragment>
-        ); // Ensure space is preserved
+        );
       }
     });
   };
