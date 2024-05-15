@@ -13,7 +13,10 @@ const AddWordLogic = (props: any) => {
     new WordStackObj<WordDetailInterface>()
   );
   const [loading, setLoading] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleWordAdded = () => {
+    setLoading(false);
+  };
 
   return (
     <div className="flex flex-col gap-3">
@@ -21,7 +24,7 @@ const AddWordLogic = (props: any) => {
         setLoading={setLoading}
         wordStack={wordStack}
         setWordStack={setWordStack}
-        setActiveIndex={setActiveIndex}
+        onWordAdded={handleWordAdded}
       />
       {loading && wordStack.isEmpty() && (
         <Card>
@@ -30,13 +33,14 @@ const AddWordLogic = (props: any) => {
           </CardContent>
         </Card>
       )}
-      <DigDeeperCard
-        wordStack={wordStack}
-        loading={loading}
-        setWordStack={setWordStack}
-        setActiveIndex={setActiveIndex}
-        activeIndex={activeIndex}
-      />
+      {!wordStack.isEmpty() && (
+        <DigDeeperCard
+          wordStack={wordStack}
+          loading={loading}
+          setWordStack={setWordStack}
+          setLoading={setLoading}
+        />
+      )}
     </div>
   );
 };

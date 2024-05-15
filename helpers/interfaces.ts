@@ -17,7 +17,7 @@ export interface AddWordFormPropsInterface {
   setWordStack: React.Dispatch<
     React.SetStateAction<WordStack<WordDetailInterface>>
   >;
-  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  onWordAdded: () => void;
 }
 
 export interface DigDeeperCardInterface {
@@ -26,8 +26,7 @@ export interface DigDeeperCardInterface {
   setWordStack: React.Dispatch<
     React.SetStateAction<WordStack<WordDetailInterface>>
   >;
-  activeIndex: number;
-  setActiveIndex: React.Dispatch<React.SetStateAction<number>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface MyBreadcrumbPropsInterface {
@@ -37,4 +36,12 @@ export interface MyBreadcrumbPropsInterface {
 export interface WordResultPropsInterface {
   result: WordDetailInterface;
   rabbitHole: boolean;
+  onGoDeeperClick: (word: string) => void;
+}
+
+export interface MyPopoverPropsInterface {
+  word: string;
+  isOpen: boolean;
+  handleGoDeeperClick: (word: string) => void;
+  onOpenChange: (isOpen: boolean | null) => void;
 }

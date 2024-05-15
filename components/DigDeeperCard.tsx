@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 import { WordDetailInterface } from '@/helpers/interfaces';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -12,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { processDictionaryData } from '@/helpers/helperFunctions';
 
 import { Label } from '@/components/ui/label';
 
@@ -24,61 +26,93 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
   wordStack,
   loading,
   setWordStack,
+  setLoading,
 }) => {
   const [rabbitHole, setRabbitHole] = React.useState(false);
+
   const lastWord = wordStack.peek();
 
   const handleBackClick = () => {
     setWordStack((prev: WordStackObj<WordDetailInterface>) => prev.pop());
   };
 
+  const handleGoDeeperClick = (word: string) => {
+    setLoading(true);
+    // setTimeout(() => {
+    //   const newWordDetail: WordDetailInterface = {
+    //     word,
+    //     phoneticText: '/test/',
+    //     definitions: [
+    //       { partOfSpeech: 'noun', definition: `Definition of ${word}` },
+    //     ],
+    //   };
+    //   setWordStack((prev: WordStackObj<WordDetailInterface>) =>
+    //     prev.push(newWordDetail)
+    //   );
+    //   setLoading(false);
+    // }, 1000);
+
+    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        const wordDetail = processDictionaryData(data);
+        if (wordDetail) {
+          setWordStack((prev: WordStackObj<WordDetailInterface>) =>
+            prev.push(wordDetail)
+          );
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   const handleSwitchChange = (e: boolean) => {
     setRabbitHole(e);
   };
 
-  if (wordStack.isEmpty() && !loading) {
-    return (
-      <Card className="w-full h-full flex items-center justify-center">
-        <CardContent className="flex items-center">
-          <Image src="/Rabbit.jpg" alt="Rabbit" width={35} height={20} />
-          <span className="ml-4 text-black text-lg">Down the rabbit hole</span>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <>
-      {loading ? null : (
-        <Card className="w-full">
-          <CardHeader className="flex">
-            <MyBreadcrumb words={wordStack.getAllWords()} />
-          </CardHeader>
-          {lastWord ? (
-            <WordResult result={lastWord} rabbitHole={rabbitHole} />
-          ) : null}
-          <CardFooter className="flex justify-between">
-            <Button onClick={handleBackClick} variant="outline">
-              Back
-            </Button>
-            <div className="flex gap-2">
-              <Label
-                htmlFor="rabbitHoleSwitch"
-                className="flex self-center text-xs"
-              >
-                Rabbit Hole
-              </Label>
-              <Switch
-                onCheckedChange={handleSwitchChange}
-                id="rabbitHoleSwitch"
-              >
-                test
-              </Switch>
-            </div>
-          </CardFooter>
-        </Card>
-      )}
-    </>
+    <Card className="w-full">
+      <CardHeader className="flex">
+        <MyBreadcrumb words={wordStack.getAllWords()} />
+      </CardHeader>
+      <CardContent>
+        {loading ? (
+          <div className="">
+            <MySkeleton />
+          </div>
+        ) : (
+          lastWord && (
+            <WordResult
+              onGoDeeperClick={handleGoDeeperClick}
+              result={lastWord}
+              rabbitHole={rabbitHole}
+            />
+          )
+        )}
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button onClick={handleBackClick} variant="outline">
+          Back
+        </Button>
+        <div className="flex gap-2">
+          <Label
+            htmlFor="rabbitHoleSwitch"
+            className="flex self-center text-xs"
+          >
+            Rabbit Hole
+          </Label>
+          <Switch onCheckedChange={handleSwitchChange} id="rabbitHoleSwitch">
+            test
+          </Switch>
+        </div>
+      </CardFooter>
+    </Card>
   );
 };
 

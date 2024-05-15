@@ -4,10 +4,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from '@/components/ui/popover';
-import {
-  WordResultPropsInterface,
-  WordDetailInterface,
-} from '@/helpers/interfaces';
+import { WordResultPropsInterface } from '@/helpers/interfaces';
 import {
   CardContent,
   CardFooter,
@@ -22,16 +19,14 @@ import React from 'react';
 const WordResult: React.FC<WordResultPropsInterface> = ({
   result,
   rabbitHole,
+  onGoDeeperClick,
 }) => {
-  const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const { word, phoneticText, definitions } = result;
 
-  const handleWordClick = (word: string) => {
-    setSelectedWord(word);
-  };
-
   const handleGoDeeperClick = (word: string) => {
-    console.log(word);
+    setTimeout(() => {
+      onGoDeeperClick(word);
+    }, 300);
   };
 
   const renderDefinition = (definition: string) => {
@@ -44,7 +39,7 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
       const punctuation = part[2];
       const space = part[3];
 
-      if (rabbitHole && !isCommonShortWord(word)) {
+      if (rabbitHole && !isCommonShortWord(word) && word.length > 2) {
         return (
           <React.Fragment key={index}>
             <Popover>
