@@ -25,9 +25,15 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
 }) => {
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const { word, phoneticText, definitions } = result;
+
   const handleWordClick = (word: string) => {
     setSelectedWord(word);
   };
+
+  const handleGoDeeperClick = (word: string) => {
+    console.log(word);
+  };
+
   const renderDefinition = (definition: string) => {
     // Split the definition into words, keeping the punctuation and spaces
     const wordRegex = /(\b\w+\b)([^\w\s]*)(\s*)/g;
@@ -42,11 +48,13 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
         return (
           <React.Fragment key={index}>
             <Popover>
-              <PopoverTrigger className="text-blue-500 cursor-pointer">
+              <PopoverTrigger className="text-red-400 cursor-pointer">
                 {word}
               </PopoverTrigger>
-              <PopoverContent>
-                <Button>{`Look up "${word}"`}</Button>
+              <PopoverContent className="flex justify-center">
+                <Button
+                  onClick={() => handleGoDeeperClick(word)}
+                >{`Look up '${word}'`}</Button>
               </PopoverContent>
             </Popover>
             {punctuation}

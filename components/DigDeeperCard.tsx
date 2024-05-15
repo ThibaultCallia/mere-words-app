@@ -13,17 +13,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-  BreadcrumbEllipsis,
-} from '@/components/ui/breadcrumb';
+
 import MySkeleton from './MySkeleton';
 import MyBreadcrumb from './MyBreadCrumb';
 import WordResult from './WordResult';
@@ -36,7 +27,6 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
   setWordStack,
 }) => {
   const [rabbitHole, setRabbitHole] = React.useState(false);
-  const [selectedWord, setSelectedWord] = React.useState<string | null>(null);
   const lastWord = wordStack.peek();
 
   const handleBackClick = () => {
