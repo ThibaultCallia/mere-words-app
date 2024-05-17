@@ -6,7 +6,7 @@ export default function Home() {
     <div>
       <Navbar />
       <h1>Home</h1>
-      <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+      <Image src="/rabb.svg" alt="Vercel Logo" width={72} height={16} />
     </div>
   );
 }

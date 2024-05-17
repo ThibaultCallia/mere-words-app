@@ -23,33 +23,33 @@ const AddWordForm: React.FC<AddWordFormPropsInterface> = ({
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
-    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        const wordDetail = processDictionaryData(data);
-        if (wordDetail) {
-          setWordStack((prev: WordStackObj<WordDetailInterface>) =>
-            prev.push(wordDetail)
-          );
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    // setTimeout(() => {
-    //   const wordDetail = processDictionaryData(pickRandom());
-    //   if (wordDetail) {
-    //     setWordStack((prev: WordStackObj<WordDetailInterface>) =>
-    //       prev.push(wordDetail)
-    //     );
-    //   }
-    //   setLoading(false);
-    // }, 2000);
+    // fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    //   .then((data) => {
+    //     const wordDetail = processDictionaryData(data);
+    //     if (wordDetail) {
+    //       setWordStack((prev: WordStackObj<WordDetailInterface>) =>
+    //         prev.push(wordDetail)
+    //       );
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
+    setTimeout(() => {
+      const wordDetail = processDictionaryData(pickRandom());
+      if (wordDetail) {
+        setWordStack((prev: WordStackObj<WordDetailInterface>) =>
+          prev.push(wordDetail)
+        );
+      }
+      setLoading(false);
+    }, 2000);
 
     setWord('');
   };

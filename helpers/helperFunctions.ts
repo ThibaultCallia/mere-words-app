@@ -14,13 +14,16 @@ export function processDictionaryData(data: any[]): WordDetailInterface | null {
   };
 
   firstEntry.meanings.forEach((meaning: any) => {
-    if (wordDetail.definitions.length < 2) {
-      const def = meaning.definitions[0];
+    const limitedDefinitions = meaning.definitions.slice(0, 2); // Limit to 2 definitions per part of speech
+    limitedDefinitions.forEach((def: any) => {
       wordDetail.definitions.push({
         partOfSpeech: meaning.partOfSpeech,
         definition: def.definition,
+        example: def.example || '',
+        synonyms: def.synonyms || [],
+        antonyms: def.antonyms || [],
       });
-    }
+    });
   });
 
   return wordDetail;

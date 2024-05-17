@@ -8,6 +8,9 @@ export interface WordDetailInterface {
   definitions: Array<{
     partOfSpeech: string;
     definition: string;
+    example?: string;
+    synonyms: string[];
+    antonyms: string[];
   }>;
 }
 

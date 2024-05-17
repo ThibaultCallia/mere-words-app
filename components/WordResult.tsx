@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import React from 'react';
 import {
   Popover,
   PopoverTrigger,
@@ -10,11 +11,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
-import { Button } from './ui/button';
+import { Button } from '@/components/ui/button';
 import { isCommonShortWord } from '@/helpers/commonShortWords';
-import React from 'react';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+import { WordDetailInterface } from '@/helpers/interfaces';
 
 const WordResult: React.FC<WordResultPropsInterface> = ({
   result,
@@ -29,10 +31,13 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
     }, 300);
   };
 
-  const renderDefinition = (definition: string) => {
-    // Split the definition into words, keeping the punctuation and spaces
+  const renderIntoClickable = (
+    text: string,
+    handleGoDeeperClick: (word: string) => void,
+    rabbitHole: boolean
+  ) => {
     const wordRegex = /(\b\w+\b)([^\w\s]*)(\s*)/g;
-    const parts = definition.matchAll(wordRegex);
+    const parts = text.matchAll(wordRegex);
 
     return Array.from(parts).map((part, index) => {
       const word = part[1];
@@ -47,9 +52,9 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
                 {word}
               </PopoverTrigger>
               <PopoverContent className="flex justify-center">
-                <Button
-                  onClick={() => handleGoDeeperClick(word)}
-                >{`Look up '${word}'`}</Button>
+                <Button onClick={() => handleGoDeeperClick(word)}>
+                  {`Look up '${word}'`}
+                </Button>
               </PopoverContent>
             </Popover>
             {punctuation}
@@ -68,6 +73,50 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
     });
   };
 
+  const renderDefinition = (
+    wordDetail: WordDetailInterface,
+    handleGoDeeperClick: (word: string) => void,
+    rabbitHole: boolean
+  ) => {
+    return (
+      <div className="h-64 overflow-y-auto">
+        {' '}
+        {wordDetail.definitions.map((def, index) => (
+          <div key={index} className="mb-4">
+            <p className="mb-1">
+              <strong>{def.partOfSpeech} Definition:</strong>{' '}
+              {renderIntoClickable(
+                def.definition,
+                handleGoDeeperClick,
+                rabbitHole
+              )}
+            </p>
+            {def.example && (
+              <p className="mb-1">
+                <strong>Example:</strong>{' '}
+                {renderIntoClickable(
+                  def.example,
+                  handleGoDeeperClick,
+                  rabbitHole
+                )}
+              </p>
+            )}
+            {def.synonyms.length > 0 && (
+              <p className="mb-1">
+                <strong>Synonyms:</strong> {def.synonyms.join(', ')}
+              </p>
+            )}
+            {def.antonyms.length > 0 && (
+              <p className="mb-1">
+                <strong>Antonyms:</strong> {def.antonyms.join(', ')}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <>
       <CardHeader className="flex py-0.5 text-2xl">
@@ -79,9 +128,9 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-5">
-        <CardDescription>
-          {renderDefinition(definitions[0].definition)}
-        </CardDescription>
+        <ScrollArea className="h-64">
+          {renderDefinition(result, onGoDeeperClick, rabbitHole)}
+        </ScrollArea>
       </CardContent>
     </>
   );

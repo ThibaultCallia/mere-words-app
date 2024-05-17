@@ -19,7 +19,7 @@ const AddWordLogic = (props: any) => {
   };
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3 flex-grow h-full">
       <AddWordForm
         setLoading={setLoading}
         wordStack={wordStack}
@@ -34,12 +34,14 @@ const AddWordLogic = (props: any) => {
         </Card>
       )}
       {!wordStack.isEmpty() && (
-        <DigDeeperCard
-          wordStack={wordStack}
-          loading={loading}
-          setWordStack={setWordStack}
-          setLoading={setLoading}
-        />
+        <div className="flex-grow flex flex-col">
+          <DigDeeperCard
+            wordStack={wordStack}
+            loading={loading}
+            setWordStack={setWordStack}
+            setLoading={setLoading}
+          />
+        </div>
       )}
     </div>
   );
