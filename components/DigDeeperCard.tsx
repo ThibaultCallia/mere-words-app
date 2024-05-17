@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useToast } from '@/components/ui/use-toast';
+
 import { WordDetailInterface } from '@/helpers/interfaces';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -29,6 +30,7 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
   setLoading,
 }) => {
   const [rabbitHole, setRabbitHole] = React.useState(false);
+  const { toast } = useToast();
 
   const lastWord = wordStack.peek();
 
@@ -38,55 +40,65 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
 
   const handleGoDeeperClick = (word: string) => {
     setLoading(true);
-    setTimeout(() => {
-      const mockApiResponse = [
-        {
-          word,
-          phonetic: '/ˈtest/',
-          phonetics: [{ text: '/ˈtest/', audio: '' }],
-          meanings: [
-            {
-              partOfSpeech: 'noun',
-              definitions: [
-                {
-                  definition: `Definition of ${word}`,
-                  example: `Example of ${word}`,
-                  synonyms: ['synonym1', 'synonym2'],
-                  antonyms: ['antonym1', 'antonym2'],
-                },
-              ],
-            },
-          ],
-        },
-      ];
+    // setTimeout(() => {
+    //   const mockApiResponse = [
+    //     {
+    //       word,
+    //       phonetic: '/ˈtest/',
+    //       phonetics: [{ text: '/ˈtest/' }],
+    //       meanings: [
+    //         {
+    //           partOfSpeech: 'noun',
+    //           definitions: [
+    //             {
+    //               definition: `Definition of ${word}`,
+    //               example: `Example of ${word}`,
+    //               synonyms: ['synonym1', 'synonym2'],
+    //               antonyms: ['antonym1', 'antonym2'],
+    //             },
+    //           ],
+    //         },
+    //       ],
+    //     },
+    //   ];
 
-      const newWordDetail = processDictionaryData(mockApiResponse);
-      if (newWordDetail) {
-        setWordStack((prev: WordStackObj<WordDetailInterface>) =>
-          prev.push(newWordDetail)
-        );
-      }
-      setLoading(false);
-    }, 1000);
-
-    //   fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-    //     .then((response) => {
-    //       return response.json();
-    //     })
-    //     .then((data) => {
-    //       const wordDetail = processDictionaryData(data);
-    //       if (wordDetail) {
-    //         setWordStack((prev: WordStackObj<WordDetailInterface>) =>
-    //           prev.push(wordDetail)
-    //         );
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.error('Error:', error);
-    //     })
-    //     .finally(() => {
-    //       setLoading(false);
+    //   const result = processDictionaryData(mockApiResponse);
+    //   if (typeof result === 'string') {
+    //     toast({
+    //       title: result,
     //     });
+    //   } else {
+    //     setWordStack((prev: WordStackObj<WordDetailInterface>) =>
+    //       prev.push(result)
+    //     );
+    //   }
+    //   setLoading(false);
+    // }, 1000);
+
+    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        const result = processDictionaryData(data);
+        if (typeof result === 'string') {
+          toast({
+            variant: 'destructive',
+            title: result,
+            description: 'Check spelling or try again later',
+          });
+        } else {
+          setWordStack((prev: WordStackObj<WordDetailInterface>) =>
+            prev.push(result)
+          );
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleSwitchChange = (e: boolean) => {
@@ -94,13 +106,13 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
   };
 
   return (
-    <Card className="w-full flex flex-col flex-grow">
+    <Card className="w-full flex flex-col flex-grow h-full">
       <CardHeader className="flex">
         <MyBreadcrumb words={wordStack.getAllWords()} />
       </CardHeader>
-      <CardContent className="flex-grow">
+      <CardContent className="flex flex-col flex-grow">
         {loading ? (
-          <div className="">
+          <div className="flex-grow">
             <MySkeleton />
           </div>
         ) : (
@@ -121,12 +133,12 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
           <Button variant={'destructive'}>Save</Button>
         </div>
         <div className="flex flex-reverse items-center  gap-2">
-          {/* <Label
+          <Label
             htmlFor="rabbitHoleSwitch"
             className="flex self-center text-xs"
           >
-            <Image alt="rabbit logo" src={'/rabb.jpg'} height={20} width={20} />
-          </Label> */}
+            <Image alt="rabbit logo" src={'/rabb.svg'} height={20} width={20} />
+          </Label>
           <Switch onCheckedChange={handleSwitchChange} id="rabbitHoleSwitch">
             test
           </Switch>

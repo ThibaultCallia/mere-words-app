@@ -1,4 +1,5 @@
 'use client';
+import { useToast } from '@/components/ui/use-toast';
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -18,38 +19,56 @@ const AddWordForm: React.FC<AddWordFormPropsInterface> = ({
 }) => {
   // State to hold the input value
   const [word, setWord] = useState('');
+  const { toast } = useToast();
 
   // Handler for form submission
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    if (!wordStack.isEmpty()) {
+      setWordStack(new WordStackObj<WordDetailInterface>());
+    }
+
     setLoading(true);
-    // fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
-    //   .then((response) => {
-    //     return response.json();
-    //   })
-    //   .then((data) => {
-    //     const wordDetail = processDictionaryData(data);
-    //     if (wordDetail) {
-    //       setWordStack((prev: WordStackObj<WordDetailInterface>) =>
-    //         prev.push(wordDetail)
-    //       );
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
-    setTimeout(() => {
-      const wordDetail = processDictionaryData(pickRandom());
-      if (wordDetail) {
-        setWordStack((prev: WordStackObj<WordDetailInterface>) =>
-          prev.push(wordDetail)
-        );
-      }
-      setLoading(false);
-    }, 2000);
+    fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        const result = processDictionaryData(data);
+        if (typeof result === 'string') {
+          toast({
+            variant: 'destructive',
+            title: result,
+            description: 'Check spelling or try again later',
+          });
+        } else {
+          setWordStack((prev: WordStackObj<WordDetailInterface>) =>
+            prev.push(result)
+          );
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: 'Word not found',
+          description: 'Check spelling or try again later',
+        });
+        console.error('Error:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    // setTimeout(() => {
+    //   const result = processDictionaryData(pickRandom());
+
+    //   if (typeof result === 'string') {
+    //     toast({ title: result });
+    //   } else {
+    //     setWordStack((prev: WordStackObj<WordDetailInterface>) =>
+    //       prev.push(result)
+    //     );
+    //   }
+    //   setLoading(false);
+    // }, 500);
 
     setWord('');
   };
@@ -62,10 +81,9 @@ const AddWordForm: React.FC<AddWordFormPropsInterface> = ({
         onChange={(e) => setWord(e.target.value)}
         placeholder="Enter a word"
         className="border rounded p-2 text-lg"
-        disabled={!wordStack.isEmpty()}
       />
       <Button disabled={word.length === 0} type="submit">
-        Look Up
+        {wordStack.isEmpty() ? 'Look Up' : 'Start Over'}
       </Button>
     </form>
   );

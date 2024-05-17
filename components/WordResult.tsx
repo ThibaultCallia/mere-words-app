@@ -79,8 +79,7 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
     rabbitHole: boolean
   ) => {
     return (
-      <div className="h-64 overflow-y-auto">
-        {' '}
+      <div className="overflow-y-auto">
         {wordDetail.definitions.map((def, index) => (
           <div key={index} className="mb-4">
             <p className="mb-1">
@@ -128,7 +127,7 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-5">
-        <ScrollArea className="h-64">
+        <ScrollArea className="h-40 pr-3">
           {renderDefinition(result, onGoDeeperClick, rabbitHole)}
         </ScrollArea>
       </CardContent>

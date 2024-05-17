@@ -34,7 +34,7 @@ const AddWordLogic = (props: any) => {
         </Card>
       )}
       {!wordStack.isEmpty() && (
-        <div className="flex-grow flex flex-col">
+        <div className="flex flex-col flex-grow">
           <DigDeeperCard
             wordStack={wordStack}
             loading={loading}

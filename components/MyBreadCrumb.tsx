@@ -10,7 +10,7 @@ import { MyBreadcrumbPropsInterface } from '@/helpers/interfaces';
 const MyBreadcrumb: React.FC<MyBreadcrumbPropsInterface> = ({ words }) => {
   if (words.length < 2) return null;
   return (
-    <Breadcrumb className="pb-2 pt-0 ">
+    <Breadcrumb className="pb-0 pt-0 ">
       <BreadcrumbList>
         {words.length > 3 ? (
           <>

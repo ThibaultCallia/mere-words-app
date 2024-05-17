@@ -1068,9 +1068,17 @@ export const pickRandom = () => {
   return dataArr[randomIndex];
 };
 
-const issue = {
+const APIissue = {
   title: 'Something Went Wrong',
   message: 'Sorry pal, something went wrong, and its not your fault.',
+  resolution:
+    'You can try the search again at later time or head to the web instead.',
+};
+
+const wrongWord = {
+  title: 'No Definitions Found',
+  message:
+    "Sorry pal, we couldn't find definitions for the word you were looking for.",
   resolution:
     'You can try the search again at later time or head to the web instead.',
 };
