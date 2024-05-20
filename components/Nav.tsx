@@ -21,18 +21,27 @@ const routes = [
   {
     href: '/',
     label: 'Home',
+    mustBeSignedIn: false,
   },
   {
     href: '/about',
     label: 'About',
+    mustBeSignedIn: false,
   },
   {
     href: '/add-word',
     label: 'Add Word',
+    mustBeSignedIn: true,
   },
   {
     href: '/my-dictionary',
     label: 'My Dictionary',
+    mustBeSignedIn: true,
+  },
+  {
+    href: '/practice-cards',
+    label: 'Practice Cards',
+    mustBeSignedIn: true,
   },
 ];
 
@@ -77,19 +86,35 @@ const Nav = () => {
           </SheetTrigger>
           <SheetContent className="px-2">
             <nav className="flex flex-col gap-y-2 pt-6">
-              {routes.map((route) => (
-                <Button
-                  className="w-full justify-end"
-                  key={route.href}
-                  variant={route.href === pathname ? 'secondary' : 'ghost'}
-                  // onclick io href as function above also closes trigger
-                  onClick={() => {
-                    onClick(route.href);
-                  }}
-                >
-                  {route.label}
-                </Button>
-              ))}
+              {routes.map((route) => {
+                return route.mustBeSignedIn ? (
+                  <SignedIn>
+                    <Button
+                      className="w-full justify-end"
+                      key={route.href}
+                      variant={route.href === pathname ? 'secondary' : 'ghost'}
+                      // onclick io href as function above also closes trigger
+                      onClick={() => {
+                        onClick(route.href);
+                      }}
+                    >
+                      {route.label}
+                    </Button>
+                  </SignedIn>
+                ) : (
+                  <Button
+                    className="w-full justify-end"
+                    key={route.href}
+                    variant={route.href === pathname ? 'secondary' : 'ghost'}
+                    // onclick io href as function above also closes trigger
+                    onClick={() => {
+                      onClick(route.href);
+                    }}
+                  >
+                    {route.label}
+                  </Button>
+                );
+              })}
             </nav>
           </SheetContent>
         </Sheet>
@@ -100,14 +125,25 @@ const Nav = () => {
   return (
     <div className="flex gap-4">
       <nav className="hidden lg:flex items-center gap-x-2 overflow-x-auto ">
-        {routes.map((route) => (
-          <NavBtn
-            key={route.href}
-            href={route.href}
-            label={route.label}
-            isActive={pathname === route.href}
-          />
-        ))}
+        {routes.map((route) => {
+          return route.mustBeSignedIn ? (
+            <SignedIn>
+              <NavBtn
+                key={route.href}
+                href={route.href}
+                label={route.label}
+                isActive={pathname === route.href}
+              />
+            </SignedIn>
+          ) : (
+            <NavBtn
+              key={route.href}
+              href={route.href}
+              label={route.label}
+              isActive={pathname === route.href}
+            />
+          );
+        })}
       </nav>
       <SignedIn>
         <UserButton afterSignOutUrl="/" />
