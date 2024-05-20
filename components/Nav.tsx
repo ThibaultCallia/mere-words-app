@@ -124,7 +124,7 @@ const Nav = () => {
 
   return (
     <div className="flex gap-4">
-      <nav className="hidden lg:flex items-center gap-x-2 overflow-x-auto ">
+      <nav className="hidden lg:flex items-center gap-x-2 overflow-x-auto">
         {routes.map((route) => {
           return route.mustBeSignedIn ? (
             <SignedIn>
