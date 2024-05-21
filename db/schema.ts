@@ -3,6 +3,7 @@ import { pgTable, serial, json, varchar, integer } from 'drizzle-orm/pg-core';
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   clerkId: varchar('clerk_id', { length: 256 }).unique().notNull(),
+  clerkAttributes: json('clerk_attributes'),
 });
 
 export const words = pgTable('words', {
