@@ -1,4 +1,13 @@
 import { WordDetailInterface } from './interfaces';
+import { currentUser } from '@clerk/nextjs/server';
+
+export const getCurrentUser = async () => {
+  const user = await currentUser();
+  if (!user) {
+    throw new Error('Not authenticated');
+  }
+  return user;
+};
 
 export function processDictionaryData(data: any): WordDetailInterface | string {
   if (Array.isArray(data)) {

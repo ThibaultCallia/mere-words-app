@@ -28,6 +28,7 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
   loading,
   setWordStack,
   setLoading,
+  userId,
 }) => {
   const [rabbitHole, setRabbitHole] = React.useState(false);
   const { toast } = useToast();
@@ -130,7 +131,15 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
           <Button onClick={handleBackClick} variant="outline">
             Back
           </Button>
-          <Button variant={'destructive'}>Save</Button>
+          <Button
+            onClick={() => {
+              console.log(userId);
+              console.log(wordStack.peek()?.word);
+            }}
+            variant={'destructive'}
+          >
+            Save
+          </Button>
         </div>
         <div className="flex flex-reverse items-center  gap-2">
           <Label
