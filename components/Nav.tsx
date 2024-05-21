@@ -2,12 +2,11 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useMedia } from 'react-use';
-import NavBtn from '@/components/NavBtn';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Menu } from 'lucide-react';
 import { Button } from './ui/button';
-import { Menu } from 'lucide-react';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import NavBtn from '@/components/NavBtn';
 import {
   UserButton,
   ClerkLoaded,
@@ -56,6 +55,30 @@ const Nav = () => {
     setIsOpen(false);
   };
 
+  const renderNavLinks = () =>
+    routes.map((route) =>
+      route.mustBeSignedIn ? (
+        <SignedIn key={route.href}>
+          <Button
+            className="w-full justify-end"
+            variant={route.href === pathname ? 'secondary' : 'ghost'}
+            onClick={() => onClick(route.href)}
+          >
+            {route.label}
+          </Button>
+        </SignedIn>
+      ) : (
+        <Button
+          className="w-full justify-end"
+          key={route.href}
+          variant={route.href === pathname ? 'secondary' : 'ghost'}
+          onClick={() => onClick(route.href)}
+        >
+          {route.label}
+        </Button>
+      )
+    );
+
   if (isMobile) {
     return (
       <div className="flex gap-4">
@@ -85,37 +108,7 @@ const Nav = () => {
             </Button>
           </SheetTrigger>
           <SheetContent className="px-2">
-            <nav className="flex flex-col gap-y-2 pt-6">
-              {routes.map((route) => {
-                return route.mustBeSignedIn ? (
-                  <SignedIn>
-                    <Button
-                      className="w-full justify-end"
-                      key={route.href}
-                      variant={route.href === pathname ? 'secondary' : 'ghost'}
-                      // onclick io href as function above also closes trigger
-                      onClick={() => {
-                        onClick(route.href);
-                      }}
-                    >
-                      {route.label}
-                    </Button>
-                  </SignedIn>
-                ) : (
-                  <Button
-                    className="w-full justify-end"
-                    key={route.href}
-                    variant={route.href === pathname ? 'secondary' : 'ghost'}
-                    // onclick io href as function above also closes trigger
-                    onClick={() => {
-                      onClick(route.href);
-                    }}
-                  >
-                    {route.label}
-                  </Button>
-                );
-              })}
-            </nav>
+            <nav className="flex flex-col gap-y-2 pt-6">{renderNavLinks()}</nav>
           </SheetContent>
         </Sheet>
       </div>
@@ -125,11 +118,10 @@ const Nav = () => {
   return (
     <div className="flex gap-4">
       <nav className="hidden lg:flex items-center gap-x-2 overflow-x-auto">
-        {routes.map((route) => {
-          return route.mustBeSignedIn ? (
-            <SignedIn>
+        {routes.map((route) =>
+          route.mustBeSignedIn ? (
+            <SignedIn key={route.href}>
               <NavBtn
-                key={route.href}
                 href={route.href}
                 label={route.label}
                 isActive={pathname === route.href}
@@ -142,8 +134,8 @@ const Nav = () => {
               label={route.label}
               isActive={pathname === route.href}
             />
-          );
-        })}
+          )
+        )}
       </nav>
       <SignedIn>
         <UserButton afterSignOutUrl="/" />
@@ -151,7 +143,7 @@ const Nav = () => {
       <SignedOut>
         <SignInButton>
           <Button variant="outline" size="sm">
-            Sign In
+            Log On
           </Button>
         </SignInButton>
       </SignedOut>
