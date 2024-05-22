@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetWords } from '@/features/words/api/use-get-words';
+import { useGetWords } from '@/custom-hooks/words/api/use-get-words';
 
 const MyDictionary = () => {
   const { data, isLoading, error } = useGetWords();

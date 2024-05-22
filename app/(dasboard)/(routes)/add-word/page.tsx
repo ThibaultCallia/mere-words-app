@@ -2,6 +2,8 @@ import AddWordLogic from '@/components/AddWordLogic';
 import { Toaster } from '@/components/ui/toaster';
 import { getCurrentUser } from '@/helpers/helperFunctions';
 
+// Find alternative for how addWord looks up user -> everything will block while searching
+
 const addWord = async () => {
   const { id: currentUserId } = await getCurrentUser();
   return (

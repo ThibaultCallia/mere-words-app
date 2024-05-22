@@ -3,7 +3,7 @@ import * as React from 'react';
 import AddWordForm from './AddWordForm';
 import MySkeleton from './MySkeleton';
 import DigDeeperCard from './DigDeeperCard';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import WordStackObj from '../helpers/WordStackObj';
 import { WordDetailInterface } from '@/helpers/interfaces';
