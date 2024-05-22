@@ -30,7 +30,6 @@ export interface DigDeeperCardInterface {
     React.SetStateAction<WordStack<WordDetailInterface>>
   >;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  userId: string;
 }
 
 export interface MyBreadcrumbPropsInterface {

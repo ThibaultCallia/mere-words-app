@@ -8,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import WordStackObj from '../helpers/WordStackObj';
 import { WordDetailInterface } from '@/helpers/interfaces';
 
-const AddWordLogic = ({ userId }: any) => {
+const AddWordLogic = () => {
   const [wordStack, setWordStack] = useState(
     new WordStackObj<WordDetailInterface>()
   );
@@ -40,7 +40,6 @@ const AddWordLogic = ({ userId }: any) => {
             loading={loading}
             setWordStack={setWordStack}
             setLoading={setLoading}
-            userId={userId}
           />
         </div>
       )}

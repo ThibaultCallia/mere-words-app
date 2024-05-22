@@ -1,14 +1,60 @@
-import { pgTable, serial, json, varchar, integer } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
+
+import {
+  pgTable,
+  serial,
+  json,
+  varchar,
+  integer,
+  primaryKey,
+  text,
+} from 'drizzle-orm/pg-core';
+import { createInsertSchema } from 'drizzle-zod';
 
 export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
+  id: text('id').primaryKey(),
   clerkId: varchar('clerk_id', { length: 256 }).unique().notNull(),
-  // clerkAttributes: json('clerk_attributes'),
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+  usersToWords: many(usersToWords),
+}));
 
 export const words = pgTable('words', {
   id: serial('id').primaryKey(),
   word: varchar('word', { length: 256 }).notNull(),
   // definition: json('definition').notNull(),
-  // userId: integer('user_id').references(() => users.id),
 });
+
+export const wordsRelations = relations(words, ({ many }) => ({
+  usersToWords: many(usersToWords),
+}));
+
+export const usersToWords = pgTable(
+  'users_to_words',
+  {
+    userId: integer('user_id')
+      .notNull()
+      .references(() => users.id),
+    wordId: integer('word_id')
+      .notNull()
+      .references(() => words.id, { onDelete: 'cascade' }),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.userId, t.wordId] }),
+  })
+);
+
+export const usersToGroupsRelations = relations(usersToWords, ({ one }) => ({
+  group: one(words, {
+    fields: [usersToWords.wordId],
+    references: [words.id],
+  }),
+  user: one(users, {
+    fields: [usersToWords.userId],
+    references: [users.id],
+  }),
+}));
+
+export const insertWordsSchema = createInsertSchema(words);
+export const insertUsersSchema = createInsertSchema(users);

@@ -1,11 +1,9 @@
 import AddWordLogic from '@/components/AddWordLogic';
 import { Toaster } from '@/components/ui/toaster';
-import { getCurrentUser } from '@/helpers/helperFunctions';
 
 // Find alternative for how addWord looks up user -> everything will block while searching
 
 const addWord = async () => {
-  const { id: currentUserId } = await getCurrentUser();
   return (
     <div
       className="min-h-screen flex flex-col items-center bg-gray-100 px-4"
@@ -20,7 +18,7 @@ const addWord = async () => {
         </h1>
 
         <div className="flex flex-col flex-grow h-full">
-          <AddWordLogic userId={currentUserId} />
+          <AddWordLogic />
         </div>
       </div>
       <Toaster />

@@ -22,6 +22,20 @@
       "when": 1716343137602,
       "tag": "0002_gigantic_maelstrom",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1716354740204,
+      "tag": "0003_natural_stingray",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1716354993076,
+      "tag": "0004_cuddly_kat_farrell",
+      "breakpoints": true
     }
   ]
 }

@@ -3,7 +3,6 @@ import { db } from '@/db/db';
 import { words } from '@/db/schema';
 import { clerkMiddleware, getAuth } from '@hono/clerk-auth';
 import { eq } from 'drizzle-orm';
-import { currentUser } from '@clerk/nextjs/server';
 
 const app = new Hono().get('/', clerkMiddleware(), async (c) => {
   // below HTTPException throw is a way to handle errors in Hono without changing the type safety of the routes
