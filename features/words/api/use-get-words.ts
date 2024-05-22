@@ -8,7 +8,7 @@ export const useGetWords = () => {
     queryFn: async () => {
       const response = await client.api.words.$get();
 
-      //   With hono you have to take care of errors yourself (unlike Axios that will throw error for you)
+      //   With hono you have to take care of errors yourself (unlike Axios that will throw error)
 
       if (!response.ok) {
         throw new Error('failed to fetch words');

@@ -3,6 +3,7 @@ import { db } from '@/db/db';
 import { words } from '@/db/schema';
 
 const app = new Hono().get('/', async (c) => {
+  console.log('awaiting db now');
   const data = await db
     .select({
       word: words.word,
