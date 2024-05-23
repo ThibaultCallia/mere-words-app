@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1716259051149,
-      "tag": "0000_majestic_post",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1716277197226,
-      "tag": "0001_mean_logan",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1716343137602,
-      "tag": "0002_gigantic_maelstrom",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "6",
-      "when": 1716354740204,
-      "tag": "0003_natural_stingray",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "6",
-      "when": 1716354993076,
-      "tag": "0004_cuddly_kat_farrell",
+      "when": 1716430452219,
+      "tag": "0000_sad_morlun",
       "breakpoints": true
     }
   ]

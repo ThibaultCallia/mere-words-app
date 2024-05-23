@@ -12,7 +12,7 @@ import {
 import { createInsertSchema } from 'drizzle-zod';
 
 export const users = pgTable('users', {
-  id: text('id').primaryKey(),
+  id: serial('id').primaryKey(),
   clerkId: varchar('clerk_id', { length: 256 }).unique().notNull(),
 });
 
@@ -45,8 +45,8 @@ export const usersToWords = pgTable(
   })
 );
 
-export const usersToGroupsRelations = relations(usersToWords, ({ one }) => ({
-  group: one(words, {
+export const usersToWordsRelations = relations(usersToWords, ({ one }) => ({
+  word: one(words, {
     fields: [usersToWords.wordId],
     references: [words.id],
   }),

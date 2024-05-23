@@ -3,13 +3,10 @@ import { headers } from 'next/headers';
 import { WebhookEvent } from '@clerk/nextjs/server';
 
 export async function POST(req: Request) {
-  // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
   const WEBHOOK_SECRET = process.env.CLERK_WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
-    throw new Error(
-      'Please add WEBHOOK_SECRET from Clerk Dashboard to .env or .env.local'
-    );
+    throw new Error('No webhook secret found.');
   }
 
   // Get the headers
@@ -50,18 +47,16 @@ export async function POST(req: Request) {
 
   // Do something with the payload
   // For this guide, you simply log the payload to the console
-  const { id } = evt.data;
-  const eventType = evt.type;
-  console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
-  console.log('Webhook body:', body);
+  const { id: clerkId } = evt.data;
 
   if (evt.type === 'user.created') {
     fetch('http://localhost:3000/api/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${WEBHOOK_SECRET}`,
       },
-      body: JSON.stringify({}), // Empty body
+      body: JSON.stringify({ clerkId }), // Empty body
     })
       .then((response) => response.json())
       .then((data) => {
@@ -70,6 +65,9 @@ export async function POST(req: Request) {
       .catch((error) => {
         console.error('Error:', error);
       });
+  }
+
+  if (evt.type === 'user.deleted') {
   }
 
   return new Response('', { status: 200 });
