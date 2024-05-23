@@ -74,7 +74,7 @@ const AddWordForm: React.FC<AddWordFormPropsInterface> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-6">
       <Input
         type="text"
         value={word}

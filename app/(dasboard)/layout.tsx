@@ -8,7 +8,7 @@ const HomeLayout = ({ children }: props) => {
   return (
     <>
       <Header />
-      <main className="">{children}</main>
+      <main className="pt-16 lg:pt-0">{children}</main>
     </>
   );
 };
