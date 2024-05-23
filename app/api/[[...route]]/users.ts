@@ -2,8 +2,6 @@ import { Hono } from 'hono';
 import { db } from '@/db/db';
 import { users } from '@/db/schema';
 
-import { eq } from 'drizzle-orm';
-
 const app = new Hono().post('/', async (c) => {
   const authHeader = c.req.header().authorization;
   const sharedSecret = process.env.CLERK_WEBHOOK_SECRET;
@@ -22,7 +20,6 @@ const app = new Hono().post('/', async (c) => {
     .returning();
   // -> returning necessary as hono does not return the inserted data by default (it does when selecting for example)
 
-  console.log(data);
   return c.json({ data: data[0] });
 });
 

@@ -105,6 +105,43 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
     setRabbitHole(e);
   };
 
+  const handleSaveWord = async () => {
+    const word = wordStack.peek()?.word;
+    if (!word) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/words', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ word }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast({
+          title: 'Word saved',
+          description: data.message,
+        });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: data.error || "Couldn't save word",
+        });
+      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        title:
+          error instanceof Error ? error.message : 'Please try again later',
+      });
+    }
+  };
+
   return (
     <Card className="w-full flex flex-col flex-grow h-full">
       <CardHeader className="flex">
@@ -130,12 +167,7 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
           <Button onClick={handleBackClick} variant="outline">
             Back
           </Button>
-          <Button
-            onClick={() => {
-              console.log(wordStack.peek()?.word);
-            }}
-            variant={'destructive'}
-          >
+          <Button onClick={handleSaveWord} variant={'destructive'}>
             Save
           </Button>
         </div>
@@ -146,9 +178,10 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
           >
             <Image alt="rabbit logo" src={'/rabb.svg'} height={20} width={20} />
           </Label>
-          <Switch onCheckedChange={handleSwitchChange} id="rabbitHoleSwitch">
-            test
-          </Switch>
+          <Switch
+            onCheckedChange={handleSwitchChange}
+            id="rabbitHoleSwitch"
+          ></Switch>
         </div>
       </CardFooter>
     </Card>

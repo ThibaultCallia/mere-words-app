@@ -40,13 +40,11 @@ export async function POST(req: Request) {
     }) as WebhookEvent;
   } catch (err) {
     console.error('Error verifying webhook:', err);
-    return new Response('Error occured', {
+    return new Response('Error occurred', {
       status: 400,
     });
   }
 
-  // Do something with the payload
-  // For this guide, you simply log the payload to the console
   const { id: clerkId } = evt.data;
 
   if (evt.type === 'user.created') {
@@ -56,7 +54,7 @@ export async function POST(req: Request) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${WEBHOOK_SECRET}`,
       },
-      body: JSON.stringify({ clerkId }), // Empty body
+      body: JSON.stringify({ clerkId }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -68,6 +66,8 @@ export async function POST(req: Request) {
   }
 
   if (evt.type === 'user.deleted') {
+  }
+  if (evt.type === 'user.updated') {
   }
 
   return new Response('', { status: 200 });
