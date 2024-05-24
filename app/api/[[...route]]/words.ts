@@ -27,7 +27,13 @@ const app = new Hono()
     }
 
     const userWords = await db
-      .select({ word: words.word, id: words.id })
+      .select({
+        word: words.word,
+        id: words.id,
+        date_added: usersToWords.dateCreated,
+        phonetic_text: words.phoneticText,
+        definition: words.definition,
+      })
       .from(words)
       .innerJoin(usersToWords, eq(usersToWords.wordId, words.id))
       .where(eq(usersToWords.userId, userId));
@@ -39,7 +45,14 @@ const app = new Hono()
   .post(
     '/',
     clerkMiddleware(),
-    zValidator('json', insertWordsSchema.pick({ word: true })),
+    zValidator(
+      'json',
+      insertWordsSchema.pick({
+        word: true,
+        definition: true,
+        phoneticText: true,
+      })
+    ),
     async (c) => {
       const auth = getAuth(c);
 
@@ -60,7 +73,7 @@ const app = new Hono()
         );
       }
 
-      const { word } = c.req.valid('json');
+      const { word, definition, phoneticText } = c.req.valid('json');
 
       const existingWord = await db
         .select()
@@ -72,9 +85,8 @@ const app = new Hono()
       if (existingWord.length === 0) {
         const insertedWord = await db
           .insert(words)
-          .values({ word })
+          .values({ word, definition, phoneticText })
           .returning({ id: words.id });
-
         wordId = insertedWord[0].id;
       } else {
         wordId = existingWord[0].id;
@@ -94,6 +106,7 @@ const app = new Hono()
       await db.insert(usersToWords).values({
         userId,
         wordId,
+        dateCreated: new Date(),
       });
 
       return c.json({ message: `${word} successfully saved in dictionary` });

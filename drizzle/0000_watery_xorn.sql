@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 CREATE TABLE IF NOT EXISTS "users_to_words" (
 	"user_id" integer NOT NULL,
 	"word_id" integer NOT NULL,
+	"date_created" timestamp DEFAULT now() NOT NULL,
 	CONSTRAINT "users_to_words_user_id_word_id_pk" PRIMARY KEY("user_id","word_id")
 );
 --> statement-breakpoint

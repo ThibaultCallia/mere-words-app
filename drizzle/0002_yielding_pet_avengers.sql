@@ -1,0 +1,1 @@
+ALTER TABLE "words" ADD COLUMN "phonetic_text" varchar(256);

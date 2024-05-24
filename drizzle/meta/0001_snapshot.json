@@ -1,6 +1,6 @@
 {
-  "id": "1dcbcdd3-f9ef-42b9-ad88-ff522935b786",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "885c71a4-407e-47f7-9714-f7c85d4c17c9",
+  "prevId": "1dcbcdd3-f9ef-42b9-ad88-ff522935b786",
   "version": "6",
   "dialect": "postgresql",
   "tables": {
@@ -111,6 +111,12 @@
         "word": {
           "name": "word",
           "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "definition": {
+          "name": "definition",
+          "type": "json",
           "primaryKey": false,
           "notNull": true
         }

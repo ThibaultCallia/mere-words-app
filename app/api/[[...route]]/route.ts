@@ -11,7 +11,11 @@ const app = new Hono().basePath('/api');
 app.use(
   '*',
   cors({
-    origin: ['http://172.20.10.2:3000', 'http://localhost:3000'],
+    origin: [
+      'http://172.20.10.2:3000',
+      'http://localhost:3000',
+      'http://10.0.0.93:3000',
+    ],
     allowMethods: ['GET', 'POST'],
     allowHeaders: ['Content-Type', 'Authorization'],
   })

@@ -95,6 +95,7 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
       })
       .catch((error) => {
         console.error('Error:', error);
+        // OTHER ERROR HANDLING
       })
       .finally(() => {
         setLoading(false);
@@ -106,10 +107,16 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
   };
 
   const handleSaveWord = async () => {
-    const word = wordStack.peek()?.word;
+    const word = wordStack.peek();
+
     if (!word) {
       return;
     }
+
+    const wordData = {
+      ...word,
+      definition: JSON.stringify(word.definitions),
+    };
 
     try {
       const response = await fetch('/api/words', {
@@ -117,23 +124,31 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ word }),
+        body: JSON.stringify(wordData),
       });
 
       const data = await response.json();
 
       if (response.ok) {
+        console.log(data);
         toast({
           title: 'Word saved',
           description: data.message,
         });
       } else {
+        const errorMessage = data.error || "Couldn't save word";
+        console.log(data);
         toast({
           variant: 'destructive',
-          title: data.error || "Couldn't save word",
+          title: 'Error saving word',
+          description:
+            typeof errorMessage === 'object'
+              ? 'Fatal error. Try again later'
+              : errorMessage,
         });
       }
     } catch (error) {
+      console.log(error);
       toast({
         variant: 'destructive',
         title:

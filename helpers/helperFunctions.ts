@@ -18,14 +18,14 @@ export function processDictionaryData(data: any): WordDetailInterface | string {
     const firstEntry = data[0];
     const wordDetail: WordDetailInterface = {
       word: firstEntry.word,
-      phoneticText: firstEntry.phonetic || '',
-      definitions: [],
+      phonetic_text: firstEntry.phonetic || '',
+      definition: [],
     };
 
     firstEntry.meanings.forEach((meaning: any) => {
       const limitedDefinitions = meaning.definitions.slice(0, 2); // Limit to 2 definitions per part of speech
       limitedDefinitions.forEach((def: any) => {
-        wordDetail.definitions.push({
+        wordDetail.definition.push({
           partOfSpeech: meaning.partOfSpeech,
           definition: def.definition,
           example: def.example || '',
@@ -42,3 +42,16 @@ export function processDictionaryData(data: any): WordDetailInterface | string {
     return 'No Definitions Found';
   }
 }
+
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-us', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+};
+
+export const capitalise = (word: string): string => {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+};

@@ -1,11 +1,11 @@
-import MyBreadcrumb from '@/components/MyBreadCrumb';
 import WordStack from './WordStackObj';
-import { CardContent } from '@/components/ui/card';
 
 export interface WordDetailInterface {
+  id?: number;
+  date_added?: string;
   word: string;
-  phoneticText: string;
-  definitions: Array<{
+  phonetic_text: string;
+  definition: Array<{
     partOfSpeech: string;
     definition: string;
     example?: string;
