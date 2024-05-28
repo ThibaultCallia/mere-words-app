@@ -37,11 +37,11 @@ const routes = [
     label: 'My Dictionary',
     mustBeSignedIn: true,
   },
-  {
-    href: '/practice-cards',
-    label: 'Practice Cards',
-    mustBeSignedIn: true,
-  },
+  // {
+  //   href: '/practice-cards',
+  //   label: 'Practice Cards',
+  //   mustBeSignedIn: true,
+  // },
 ];
 
 const Nav = () => {

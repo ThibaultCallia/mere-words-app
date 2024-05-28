@@ -9,8 +9,8 @@ const HeaderLogo = () => {
           className="hidden lg:flex"
           src="/rabb.svg"
           alt="Rabbit Hole Logo"
-          height={64}
-          width={64}
+          height={50}
+          width={50}
         />
         <Image
           className="flex lg:hidden"
