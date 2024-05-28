@@ -130,14 +130,13 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
       const data = await response.json();
 
       if (response.ok) {
-        console.log(data);
         toast({
           title: 'Word saved',
           description: data.message,
         });
       } else {
         const errorMessage = data.error || "Couldn't save word";
-        console.log(data);
+
         toast({
           variant: 'destructive',
           title: 'Error saving word',
