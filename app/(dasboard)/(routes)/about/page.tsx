@@ -42,9 +42,9 @@ export default function About() {
                   dictionary.
                 </li>
                 <li>
-                  Toggle the Rabbit Hole switch in the bottom-right corner to
+                  {`Toggle the Rabbit Hole switch in the bottom-right corner to
                   explore further explanations of a word. Dive as deep "down the
-                  rabbit hole" as you wish.
+                  rabbit hole" as you wish.`}
                 </li>
                 <li>
                   Every word you encounter can be added to your dictionary for

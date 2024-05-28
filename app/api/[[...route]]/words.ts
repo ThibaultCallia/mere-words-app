@@ -31,7 +31,7 @@ const app = new Hono()
         word: words.word,
         id: words.id,
         date_added: usersToWords.dateCreated,
-        phonetic_text: words.phoneticText,
+        phonetic_text: words.phonetic_text,
         definition: words.definition,
       })
       .from(words)
@@ -50,7 +50,7 @@ const app = new Hono()
       insertWordsSchema.pick({
         word: true,
         definition: true,
-        phoneticText: true,
+        phonetic_text: true,
       })
     ),
     async (c) => {
@@ -73,7 +73,7 @@ const app = new Hono()
         );
       }
 
-      const { word, definition, phoneticText } = c.req.valid('json');
+      const { word, definition, phonetic_text } = c.req.valid('json');
 
       const existingWord = await db
         .select()
@@ -85,7 +85,7 @@ const app = new Hono()
       if (existingWord.length === 0) {
         const insertedWord = await db
           .insert(words)
-          .values({ word, definition, phoneticText })
+          .values({ word, definition, phonetic_text })
           .returning({ id: words.id });
         wordId = insertedWord[0].id;
       } else {

@@ -23,7 +23,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const words = pgTable('words', {
   id: serial('id').primaryKey(),
   word: varchar('word', { length: 256 }).notNull(),
-  phoneticText: varchar('phonetic_text', { length: 256 }),
+  phonetic_text: varchar('phonetic_text', { length: 256 }),
   definition: json('definition').notNull(),
 });
 

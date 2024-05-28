@@ -115,7 +115,7 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
 
     const wordData = {
       ...word,
-      definition: JSON.stringify(word),
+      definition: JSON.stringify(word.definition),
     };
 
     try {

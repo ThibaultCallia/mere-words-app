@@ -22,7 +22,7 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
   rabbitHole,
   onGoDeeperClick,
 }) => {
-  const { word, phoneticText, definitions } = result;
+  const { word, phonetic_text, definition } = result;
 
   const handleGoDeeperClick = (word: string) => {
     setTimeout(() => {
@@ -79,7 +79,7 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
   ) => {
     return (
       <div className="overflow-y-auto">
-        {wordDetail.definitions.map((def, index) => (
+        {wordDetail.definition.map((def, index) => (
           <div key={index} className="mb-4">
             <p className="mb-1">
               <strong>{def.partOfSpeech} Definition:</strong>{' '}
@@ -121,7 +121,7 @@ const WordResult: React.FC<WordResultPropsInterface> = ({
         <CardTitle className="flex items-baseline">
           {word}
           <span className="text-sm italic text-gray-400 ml-2">
-            {phoneticText}
+            {phonetic_text}
           </span>
         </CardTitle>
       </CardHeader>
