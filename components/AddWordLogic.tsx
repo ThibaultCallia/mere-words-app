@@ -19,7 +19,7 @@ const AddWordLogic = () => {
   };
 
   return (
-    <div className="flex flex-col gap-3 flex-grow h-full">
+    <div className="flex flex-col gap-3 flex-grow h-full ">
       <AddWordForm
         setLoading={setLoading}
         wordStack={wordStack}

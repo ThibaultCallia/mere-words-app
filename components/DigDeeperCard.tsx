@@ -17,7 +17,7 @@ import {
 import { processDictionaryData } from '@/helpers/helperFunctions';
 
 import { Label } from '@/components/ui/label';
-
+import { Loader2 } from 'lucide-react';
 import MySkeleton from './MySkeleton';
 import MyBreadcrumb from './MyBreadCrumb';
 import WordResult from './WordResult';
@@ -31,6 +31,7 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
 }) => {
   const [rabbitHole, setRabbitHole] = React.useState(false);
   const { toast } = useToast();
+  const [loadingSaveWord, setLoadingSaveWord] = React.useState(false);
 
   const lastWord = wordStack.peek();
 
@@ -112,7 +113,7 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
     if (!word) {
       return;
     }
-
+    setLoadingSaveWord(true);
     const wordData = {
       ...word,
       definition: JSON.stringify(word.definition),
@@ -153,17 +154,19 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
         title:
           error instanceof Error ? error.message : 'Please try again later',
       });
+    } finally {
+      setLoadingSaveWord(false);
     }
   };
 
   return (
-    <Card className="w-full flex flex-col flex-grow h-full">
-      <CardHeader className="flex">
+    <Card className="w-full flex flex-col flex-grow h-full ">
+      <CardHeader className="flex ">
         <MyBreadcrumb words={wordStack.getAllWords()} />
       </CardHeader>
       <CardContent className="flex flex-col flex-grow">
         {loading ? (
-          <div className="flex-grow">
+          <div className="flex-grow ">
             <MySkeleton />
           </div>
         ) : (
@@ -177,12 +180,20 @@ const DigDeeperCard: React.FC<DigDeeperCardInterface> = ({
         )}
       </CardContent>
       <CardFooter className="flex justify-between">
-        <div className="flex  gap-2">
+        <div className="flex  gap-2 ">
           <Button onClick={handleBackClick} variant="outline">
             Back
           </Button>
-          <Button onClick={handleSaveWord} variant={'destructive'}>
-            Save
+          <Button
+            onClick={handleSaveWord}
+            variant={'destructive'}
+            disabled={loadingSaveWord}
+          >
+            {loadingSaveWord ? (
+              <Loader2 className="animate-spin w-8" />
+            ) : (
+              'Save'
+            )}
           </Button>
         </div>
         <div className="flex flex-reverse items-center  gap-2">
