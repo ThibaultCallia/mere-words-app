@@ -111,6 +111,7 @@ const app = new Hono()
 
       return c.json({ message: `${word} successfully saved in dictionary` });
     }
-  );
+  )
+  .delete('/:id', clerkMiddleware(), async (c) => {});
 
 export default app;

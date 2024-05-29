@@ -4,7 +4,17 @@ import { ColumnDef } from '@tanstack/react-table';
 import { WordDetailInterface } from '@/helpers/interfaces';
 import { formatDate, capitalise } from '@/helpers/helperFunctions';
 import { Button } from './ui/button';
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown, Delete, Loader2 } from 'lucide-react';
+
+const handleDelete = async (id: any) => {
+  console.log('Delete', id);
+
+  try {
+    const result = await fetch('...');
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const columns: ColumnDef<WordDetailInterface>[] = [
   {
@@ -59,6 +69,20 @@ export const columns: ColumnDef<WordDetailInterface>[] = [
     cell: ({ row }) => {
       const dateAdded = row.original.date_added ?? '';
       return <span>{formatDate(dateAdded)}</span>;
+    },
+  },
+  {
+    id: 'delete',
+    cell: ({ row }) => {
+      return (
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => handleDelete(row.original.id)}
+        >
+          <Delete className="h-4 w-4" />
+        </Button>
+      );
     },
   },
 ];
